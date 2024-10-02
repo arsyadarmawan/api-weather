@@ -13,6 +13,10 @@ type (
 	Client struct {
 		client *resty.Client
 	}
+	WeatherConfig struct {
+		BaseUrl string
+		ApiKey  string
+	}
 )
 
 var (
@@ -22,16 +26,19 @@ var (
 	}
 )
 
-func NewClient(baseUrl string, opts ...ClientOption) *Client {
-	if parsedUrl, err := url.Parse(baseUrl); err != nil || parsedUrl.Scheme == "" || parsedUrl.Host == "" {
-		panic(fmt.Sprintf("invalid host URL: %s", baseUrl))
+func NewClient(request WeatherConfig, opts ...ClientOption) *Client {
+	if parsedUrl, err := url.Parse(request.BaseUrl); err != nil || parsedUrl.Scheme == "" || parsedUrl.Host == "" {
+		panic(fmt.Sprintf("invalid host URL: %s", request.BaseUrl))
 	}
 
 	client := &Client{
-		client: resty.New().SetBaseURL(baseUrl),
+		client: resty.New().SetBaseURL(request.BaseUrl).SetQueryParam(
+			common.ApiKey, request.ApiKey,
+		),
 	}
 	client.applyOptions(defaultOptions)
 	client.applyOptions(opts)
+	client.SetAPIKey(request.ApiKey)
 	return client
 }
 
@@ -45,6 +52,6 @@ func (c Client) SetContext(ctx context.Context) *resty.Request {
 	return c.client.R().SetContext(ctx)
 }
 
-func (c Client) SetAPIKey(ctx context.Context, apiKey string) *resty.Request {
-	return c.SetContext(ctx).SetQueryParam(common.ApiKey, apiKey)
+func (c Client) SetAPIKey(apiKey string) *resty.Request {
+	return c.client.R().SetQueryParam(common.ApiKey, apiKey)
 }

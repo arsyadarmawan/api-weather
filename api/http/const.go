@@ -6,5 +6,6 @@ var (
 )
 
 var (
-	CurrentWeatherPath = "/data/2.5/weather"
+	CurrentWeatherPath     = "/data/2.5/weather"
+	CurrentWeatherForecast = "/data/2.5/forecast/hourly"
 )
