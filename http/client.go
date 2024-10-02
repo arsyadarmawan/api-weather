@@ -2,10 +2,10 @@ package http
 
 import (
 	"context"
-	"docker/common"
 	"fmt"
 	"github.com/go-resty/resty/v2"
 	"net/url"
+	"openweather/common"
 	"time"
 )
 

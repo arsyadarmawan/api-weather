@@ -11,7 +11,7 @@ package mockuber
 
 import (
 	context "context"
-	api "docker/api"
+	api "openweather/api"
 	reflect "reflect"
 
 	gomock "go.uber.org/mock/gomock"

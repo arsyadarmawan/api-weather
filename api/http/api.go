@@ -2,11 +2,11 @@ package http
 
 import (
 	"context"
-	"docker/api"
-	"docker/http"
 	"encoding/json"
 	"errors"
 	http2 "net/http"
+	"openweather/api"
+	"openweather/http"
 )
 
 type HttpWeatherAPI struct {
